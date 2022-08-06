@@ -72,11 +72,11 @@ export const saveTodo = async (req, res) => {
 
 export const updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { text } = req.body;
+  const { text, isCompleted } = req.body;
   try {
     const todo = await TodoModel.findByIdAndUpdate(
       id,
-      { $set: { text } },
+      { $set: { text, isCompleted } },
       { new: true }
     );
 
