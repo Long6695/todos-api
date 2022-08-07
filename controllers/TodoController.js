@@ -15,6 +15,7 @@ export const getTodos = async (req, res) => {
       page,
       total,
       data: todos,
+      isSuccess: true,
     };
 
     if (total === 0) {
