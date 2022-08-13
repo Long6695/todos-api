@@ -4,20 +4,19 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routes/TodoRoutes.js";
 import userRoutes from "./routes/UserRoutes.js";
-import authRoutes from "./routes/AuthRoutes.js";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
-
+app.use(cookieParser());
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.use("/auth", authRoutes);
 app.use("/api/todos", router);
-app.use("/api", userRoutes);
+app.use("/auth", userRoutes);
 
 const PORT = process.env.PORT || 8080;
 

@@ -5,7 +5,10 @@ import {
   getUser,
   getUsers,
   login,
+  refresh,
+  logout,
 } from "../controllers/UserController.js";
+import middlewareController from "../controllers/middlewareController.js";
 
 const router = express.Router();
 
@@ -24,4 +27,6 @@ router.post(
   check("password", "Password is required").not().isEmpty(),
   login
 );
+router.post("/refresh-token", refresh);
+router.post("/user/logout", middlewareController.verifyToken, logout);
 export default router;
