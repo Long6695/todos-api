@@ -138,6 +138,7 @@ export const login = async (req, res) => {
     const refreshToken = generateRefreshToken(user);
     refreshTokens.push(refreshToken);
     res.cookie("refreshToken", refreshToken, {
+      domain: ".localhost:3000",
       httpOnly: true,
       secure: true,
       path: "/",
@@ -161,7 +162,6 @@ export const login = async (req, res) => {
 export const refresh = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-
     if (!refreshToken) {
       return res.status(403).json({
         error : req,
@@ -183,6 +183,7 @@ export const refresh = async (req, res) => {
 
       refreshTokens.push(newRefreshToken);
       res.cookie("refreshToken", newRefreshToken, {
+        domain: ".localhost:3000",
         httpOnly: true,
         secure: true,
         path: "/",
@@ -193,7 +194,6 @@ export const refresh = async (req, res) => {
       });
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       msg: error,
       isSuccess: false,
