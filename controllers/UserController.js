@@ -164,6 +164,7 @@ export const refresh = async (req, res) => {
 
     if (!refreshToken) {
       return res.status(403).json({
+        error: req.cookies,
         isSuccess: false,
       });
     }
