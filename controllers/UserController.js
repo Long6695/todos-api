@@ -141,7 +141,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: false,
       path: "/",
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     res.status(200).json({
@@ -185,7 +185,7 @@ export const refresh = async (req, res) => {
         httpOnly: true,
         secure: false,
         path: "/",
-        sameSite: "strict",
+        sameSite: "none",
       });
       return res.status(200).json({
         accessToken: newAccessToken,
