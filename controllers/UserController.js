@@ -139,9 +139,9 @@ export const login = async (req, res) => {
     refreshTokens.push(refreshToken);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       path: "/",
-      sameSite: "none",
+      sameSite: "strict",
     });
 
     res.status(200).json({
@@ -161,13 +161,12 @@ export const login = async (req, res) => {
 export const refresh = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
+
     if (!refreshToken) {
       return res.status(403).json({
         isSuccess: false,
       });
     }
-    console.log("refreshTokens", refreshTokens);
-    console.log("refreshToken", refreshToken);
     if (!refreshTokens.includes(refreshToken)) {
       return res
         .status(403)
@@ -180,12 +179,13 @@ export const refresh = async (req, res) => {
 
       const newAccessToken = generateAccessToken(user);
       const newRefreshToken = generateRefreshToken(user);
+
       refreshTokens.push(newRefreshToken);
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         path: "/",
-        sameSite: "none",
+        sameSite: "strict",
       });
       return res.status(200).json({
         accessToken: newAccessToken,
@@ -204,13 +204,14 @@ export const logout = async (req, res) => {
   try {
     res.clearCookie("refreshToken");
     refreshTokens = refreshTokens.filter(
-      (token) => token !== res.cookies.refreshToken
+      (token) => token !== req.cookies.refreshToken
     );
     return res.status(200).json({
       isSuccess: true,
       msg: "Log out successfully!",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       isSuccess: false,
       msg: "Something went wrong!",
